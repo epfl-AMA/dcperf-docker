@@ -1,0 +1,11 @@
+services:
+  dcperf:
+    build:
+      context: .
+      dockerfile: imgs/dcperf/Dockerfile
+      network: host
+      args:
+        DOCKER_BUILDKIT: 0
+    container_name: dcperf
+    working_dir: /opt/dcperf
+    tty: true
