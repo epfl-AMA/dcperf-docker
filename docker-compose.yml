@@ -7,5 +7,9 @@ services:
       args:
         DOCKER_BUILDKIT: 0
     container_name: dcperf
+    privileged: true
     working_dir: /opt/dcperf
     tty: true
+    volumes:
+      - /sys:/sys:ro
+      - /dev:/dev

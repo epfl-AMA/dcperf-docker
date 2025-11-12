@@ -43,4 +43,8 @@ RUN curl -L --create-dirs https://mirrors.mit.edu/macports/distfiles/binutils/bi
 
 RUN ./benchpress_cli.py install tao_bench_autoscale
 
+RUN dnf install -y dmidecode \
+  lshw \
+  procps-ng
+
 CMD ["bash"]
