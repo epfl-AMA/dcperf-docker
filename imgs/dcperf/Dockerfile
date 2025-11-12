@@ -47,4 +47,6 @@ RUN dnf install -y dmidecode \
   lshw \
   procps-ng
 
-CMD ["bash"]
+RUN dnf install -y numactl
+
+CMD ["/bin/bash"]

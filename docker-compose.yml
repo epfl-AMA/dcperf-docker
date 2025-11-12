@@ -1,15 +1,77 @@
 services:
-  dcperf:
+  dcperf-server:
     build:
       context: .
       dockerfile: imgs/dcperf/Dockerfile
-      network: host
       args:
         DOCKER_BUILDKIT: 0
-    container_name: dcperf
+    container_name: dcperf-server
     privileged: true
     working_dir: /opt/dcperf
     tty: true
+    ports:
+      - "11211:11211"
+    expose:
+      - "11211"                         # expose le port en interne pour les autres services
     volumes:
       - /sys:/sys:ro
       - /dev:/dev
+    command: ["./benchpress_cli.py", "run", "tao_bench_autoscale"]
+    networks:
+      - dcperf_net
+
+  dcperf-client-1:
+    build:
+      context: .
+      dockerfile: imgs/dcperf/Dockerfile
+      args:
+        DOCKER_BUILDKIT: 0
+    container_name: dcperf-client-1
+    privileged: true
+    working_dir: /opt/dcperf
+    tty: true
+    depends_on:
+      - dcperf-server
+    volumes:
+      - /sys:/sys:ro
+      - /dev:/dev
+    command:
+      - "./benchpress_cli.py"
+      - "run"
+      - "tao_bench_custom"
+      - "-r"
+      - "client"
+      - "-i"
+      - "{\"server_hostname\":\"dcperf-server\",\"server_memsize\":251.6585693359375,\"warmup_time\":1258,\"test_time\":720,\"server_port_number\":11211,\"wait_after_warmup\":5}"
+    networks:
+      - dcperf_net
+
+  dcperf-client-2:
+    build:
+      context: .
+      dockerfile: imgs/dcperf/Dockerfile
+      args:
+        DOCKER_BUILDKIT: 0
+    container_name: dcperf-client-2
+    privileged: true
+    working_dir: /opt/dcperf
+    tty: true
+    depends_on:
+      - dcperf-server
+    volumes:
+      - /sys:/sys:ro
+      - /dev:/dev
+    command:
+      - "./benchpress_cli.py"
+      - "run"
+      - "tao_bench_custom"
+      - "-r"
+      - "client"
+      - "-i"
+      - "{\"server_hostname\":\"dcperf-server\",\"server_memsize\":251.6585693359375,\"warmup_time\":1258,\"test_time\":720,\"server_port_number\":11211,\"wait_after_warmup\":5}"
+    networks:
+      - dcperf_net
+
+networks:
+  dcperf_net:
+    driver: bridge
