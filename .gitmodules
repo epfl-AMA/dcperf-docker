@@ -1,3 +1,0 @@
-[submodule "external/dcperf"]
-	path = external/dcperf
-	url = git@github.com:facebookresearch/DCPerf.git
