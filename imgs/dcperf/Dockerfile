@@ -1,4 +1,4 @@
-FROM quay.io/centos/centos:9
+FROM quay.io/centos/centos@sha256:8f23193019c25232ea9a657fcaf0cca2570e1bdb3be54d7bd56fbb05f3eeaa02
 
 USER root
 
