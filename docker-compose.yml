@@ -10,13 +10,13 @@ services:
     working_dir: /opt/dcperf
     tty: true
     ports:
-      - "11211:11211"
+      - "1234:1234"
     expose:
-      - "11211"                         # expose le port en interne pour les autres services
+      - "1234"                         # expose the port internally for other containers
     volumes:
       - /sys:/sys:ro
       - /dev:/dev
-    command: ["./benchpress_cli.py", "run", "tao_bench_autoscale"]
+    command: ["./benchpress_cli.py", "run", "tao_bench_autoscale", "-i", "{\"port_number_start\":1234}"]
     networks:
       - dcperf_net
 
@@ -42,7 +42,7 @@ services:
       - "-r"
       - "client"
       - "-i"
-      - "{\"server_hostname\":\"dcperf-server\",\"server_memsize\":251.6585693359375,\"warmup_time\":1258,\"test_time\":720,\"server_port_number\":11211,\"wait_after_warmup\":5}"
+      - "{\"server_hostname\":\"dcperf-server\",\"server_memsize\":251.6585693359375,\"warmup_time\":1258,\"test_time\":720,\"server_port_number\":1234,\"wait_after_warmup\":5}"
     networks:
       - dcperf_net
 
@@ -68,7 +68,7 @@ services:
       - "-r"
       - "client"
       - "-i"
-      - "{\"server_hostname\":\"dcperf-server\",\"server_memsize\":251.6585693359375,\"warmup_time\":1258,\"test_time\":720,\"server_port_number\":11211,\"wait_after_warmup\":5}"
+      - "{\"server_hostname\":\"dcperf-server\",\"server_memsize\":251.6585693359375,\"warmup_time\":1258,\"test_time\":720,\"server_port_number\":1234,\"wait_after_warmup\":5}"
     networks:
       - dcperf_net
 
