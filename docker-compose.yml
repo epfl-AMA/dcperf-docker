@@ -16,7 +16,9 @@ services:
     volumes:
       - /sys:/sys:ro
       - /dev:/dev
-    command: ["./benchpress_cli.py", "run", "tao_bench_autoscale", "-i", "{\"port_number_start\":1234}"]
+    command: >
+      sh -c './benchpress_cli.py run tao_bench_autoscale -i "{\"port_number_start\":1234}" &&
+      tail -f /dev/null'
     networks:
       - dcperf_net
 
@@ -35,14 +37,12 @@ services:
     volumes:
       - /sys:/sys:ro
       - /dev:/dev
-    command:
-      - "./benchpress_cli.py"
-      - "run"
-      - "tao_bench_custom"
-      - "-r"
-      - "client"
-      - "-i"
-      - "{\"server_hostname\":\"dcperf-server\",\"server_memsize\":251.6585693359375,\"warmup_time\":1258,\"test_time\":720,\"server_port_number\":1234,\"wait_after_warmup\":5}"
+    command: >
+      sh -c './benchpress_cli.py run tao_bench_custom -r client -i
+      "{\"server_hostname\":\"dcperf-server\",\"server_memsize\":251.6585693359375,
+      \"warmup_time\":1258,\"test_time\":720,\"server_port_number\":1234,
+      \"wait_after_warmup\":5}" &&
+      tail -f /dev/null'
     networks:
       - dcperf_net
 
@@ -61,14 +61,12 @@ services:
     volumes:
       - /sys:/sys:ro
       - /dev:/dev
-    command:
-      - "./benchpress_cli.py"
-      - "run"
-      - "tao_bench_custom"
-      - "-r"
-      - "client"
-      - "-i"
-      - "{\"server_hostname\":\"dcperf-server\",\"server_memsize\":251.6585693359375,\"warmup_time\":1258,\"test_time\":720,\"server_port_number\":1234,\"wait_after_warmup\":5}"
+    command: >
+      sh -c './benchpress_cli.py run tao_bench_custom -r client -i
+      "{\"server_hostname\":\"dcperf-server\",\"server_memsize\":251.6585693359375,
+      \"warmup_time\":1258,\"test_time\":720,\"server_port_number\":1234,
+      \"wait_after_warmup\":5}" &&
+      tail -f /dev/null'
     networks:
       - dcperf_net
 
